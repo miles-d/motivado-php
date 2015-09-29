@@ -1,0 +1,9 @@
+/vendor
+/node_modules
+Homestead.yaml
+Homestead.json
+.env
+database.sqlite
+composer.lock
+todo
+ABOUT.md
