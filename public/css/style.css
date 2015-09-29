@@ -22,3 +22,11 @@ html, body {
   clear:both;
   padding-top:20px;
 } 
+
+#toggle-login {
+  margin-top: 30px;
+}
+
+#toggle-login h4 {
+  line-height: 150%;
+}
