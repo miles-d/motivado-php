@@ -7,7 +7,7 @@
 	glyphicon-plus"></span> Add new task</button>
 	</div>
 	<br>
-	@include('forms.add_task_form')
+	@include('forms.addTask')
 
 	<br>
 
@@ -32,7 +32,7 @@
             <td><b>{{ $task->motivation }}</b></td>
             <td><b>{{ $task->due_date }}</b></td>
             <td>
-              {!! done_form(['tasks.destroy', $task->id]) !!}
+              @include('forms.done')
               <a class="btn btn-sm btn-primary" href="{{ route('tasks.edit', $task->id) }}">Edit...</a>
             </td>
         </tr>

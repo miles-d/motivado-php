@@ -1,4 +1,4 @@
-    {!! Form::open(['route' => ['auth.register'], 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+{!! Form::open(['route' => ['auth.register'], 'method' => 'POST', 'class' => 'form-horizontal']) !!}
 
 <div class="form-group">
   <label for="name" class="col-lg-2 control-label">Name: </label>
@@ -40,4 +40,4 @@
           </div>
         </div>
 
-    {!! Form::close() !!}
+{!! Form::close() !!}

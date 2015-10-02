@@ -10,30 +10,30 @@
 </head>
 <body>
 <div id="wrap">
-	<div class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="{{ route('tasks.index') }}">MotivaDo</a>
-            </div>
-            <div class="navbar-default" id="navbar-main">
-                <ul class="navbar navbar-nav navbar-right">
-                    <ul class="nav navbar-nav navbar-right">
-                        @if(isset($user))
-                            <li><a href="{{ route('options.index') }}">Options</a></li>
-                            <li><a href="{{ route('auth.logout') }}">Log Out {{ $user->email }}</a></li>
-                        @else
-                            <li><a href="{{ route('auth.showRegister') }}">Create Account</a></li>
-                            <li><a href="{{ route('auth.showLogin') }}">Log In</a></li>
-                        @endif
-                    </ul>
-                </ul>
-            </div>
-        </div>
-    </div>
+  <div class="navbar navbar-default">
     <div class="container">
-        @include('partials._flash')
-        @yield('content')
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{{ route('tasks.index') }}">MotivaDo</a>
+      </div>
+      <div class="navbar-default" id="navbar-main">
+        <ul class="navbar navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right">
+          @if(isset($user))
+            <li><a href="{{ route('options.index') }}">Options</a></li>
+            <li><a href="{{ route('auth.logout') }}">Log Out {{ $user->email }}</a></li>
+          @else
+            <li><a href="{{ route('auth.showRegister') }}">Create Account</a></li>
+            <li><a href="{{ route('auth.showLogin') }}">Log In</a></li>
+          @endif
+          </ul>
+        </ul>
+      </div>
     </div>
+  </div>
+  <div class="container">
+    @include('partials._flash')
+    @yield('content')
+  </div>
 </div>
 <footer class="footer">
 	<h6 class="text-center">
