@@ -58,6 +58,7 @@ class Task extends Model
     /**
      * Check if a task is pending
      *
+     * @return bool
      */
     public function isPending()
     {
@@ -72,6 +73,11 @@ class Task extends Model
         }
     }
 
+    /**
+     * Check if task is completed
+     *
+     * @return bool
+     */
     public function isDone()
     {
         return (bool) $this->completed;
