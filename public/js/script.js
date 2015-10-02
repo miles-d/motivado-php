@@ -1,9 +1,9 @@
 $(document).ready(function() {
-    $('#add_task_form').hide();
+    $('#addTaskForm').hide();
     $('#tasks_done').hide();
 
-    $('#show_add_form_button').on('click', function() {
-        $('#add_task_form').slideToggle();
+    $('#toggleAddBtn').on('click', function() {
+        $('#addTaskForm').slideToggle();
         $('#description').focus();
     });
 
@@ -18,12 +18,10 @@ $(document).ready(function() {
         $('#specific_date').prop('checked', true);
     });
 
-
     $('.complete_button').bind('click', function() {
         alert('Complete...');
     });
 
     $('#flash').hide().slideDown().delay(1500).slideUp();
-
 });
 
