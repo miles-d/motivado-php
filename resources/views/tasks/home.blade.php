@@ -36,10 +36,9 @@
 </table>
 
 @if(count($doneTasks) > 0)
-  <div class="row" id="show_done_tasks">
-    <button class="btn btn-info"><span class="glyphicon glyphicon-plus"></span>Show Completed Tasks</button>
-  </div>
+  <button id="show_done_tasks" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span>Show Completed Tasks</button>
   <div id="tasks_done">
+  @include('forms.deleteDone')
     <table class="table table-hover table-bordered">
       @foreach ($doneTasks as $task)
         <tr>

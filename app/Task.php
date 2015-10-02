@@ -13,7 +13,6 @@ class Task extends Model
 
     /**
      * Decrypt tasks' content
-     *
      */
     private static function decrypt($tasks)
     {
@@ -25,7 +24,6 @@ class Task extends Model
 
     /**
      * Get user's tasks that are not done
-     *
      */
     public static function getTasks($id)
     {
@@ -41,11 +39,10 @@ class Task extends Model
 
     /**
      * Get user's done tasks
-     *
      */
-    public static function getDoneTasks($id)
+    public static function getDoneTasks($user_id)
     {
-		$doneTasks = self::where('user_id', $id)
+		$doneTasks = self::where('user_id', $user_id)
 			->where('completed', '=', '1')
 			->orderBy('due_date', 'desc')
 			->get();
@@ -53,6 +50,14 @@ class Task extends Model
         self::decrypt($doneTasks);
 
         return $doneTasks;
+    }
+
+    /**
+     * Delete tasks that are already done
+     */
+    public static function destroyDone($user_id)
+    {
+        self::where('user_id', $user_id)->where('completed', '1')->delete();
     }
 
     /**

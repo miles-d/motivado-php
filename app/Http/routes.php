@@ -21,6 +21,7 @@ Route::get('/', function() {
 Route::group(['middleware' => 'auth'], function() {
 	Route::resource('tasks', 'TasksController');
 	Route::patch('tasks/complete/{tasks}', ['as' => 'tasks.complete', 'uses' => 'TasksController@complete']);
+    Route::post('tasks/delete_done', ['as' => 'tasks.destroyDone', 'uses' => 'TasksController@destroyDone']);
 
 	// Options routes
 	Route::get('options', ['as' => 'options.index', 'uses' => 'OptionsController@index']);

@@ -128,5 +128,14 @@ class TasksController extends Controller
 
 		return redirect()->route('tasks.index')->with('message', 'Task deleted!')->with('status', 'success');
     }
+
+    public function destroyDone()
+    {
+        Task::destroyDone(Auth::user()->id);
+
+        return redirect()->route('tasks.index')
+            ->with('message', 'Completed tasks deleted.')
+            ->with('status', 'success');
+    }
 }
 
