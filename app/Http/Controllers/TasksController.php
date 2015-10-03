@@ -13,6 +13,10 @@ use App\Http\Requests\CreateTaskRequest;
 
 class TasksController extends Controller
 {
+	public function __construct() {
+		$this->middleware('auth');
+	}
+
     /**
      * Display a listing of the resource.
      *
@@ -75,7 +79,8 @@ class TasksController extends Controller
 		
 		$task->create($input);
 
-		return redirect()->route('tasks.index')->with('message', 'Task added!')->with('status', 'success');
+        return redirect()->route('tasks.index')
+            ->with('message', 'Task added!')->with('status', 'success');
     }
 
     /**
@@ -139,7 +144,8 @@ class TasksController extends Controller
 		}
 			
 		$task->fill($input)->save();
-		return redirect()->route('tasks.index')->with('message', 'Task saved!')->with('status', 'success');
+        return redirect()->route('tasks.index')
+            ->with('message', 'Saved!')->with('status', 'success');
     }
 
     /**
@@ -152,7 +158,8 @@ class TasksController extends Controller
     {
 		$task->delete();
 
-		return redirect()->route('tasks.index')->with('message', 'Task deleted!')->with('status', 'success');
+        return redirect()->route('tasks.index')
+            ->with('message', 'Task deleted!')->with('status', 'success');
     }
 
     public function destroyDone()

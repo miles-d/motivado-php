@@ -6,39 +6,52 @@
 |--------------------------------------------------------------------------
 */
 
-$router->bind('tasks', function($task_id)
-{
+/* Route model binding */
+$router->bind('tasks', function($task_id) {
 	return App\Task::whereId($task_id)->first();
 });
 
-// Redirect from '/' to '/auth/login'
+/* Redirect to authentication */
 Route::get('/', function() {
 	return redirect('/auth/login');
 });
 
-// Task resource
-// only available to authenticated users
-Route::group(['middleware' => 'auth'], function() {
-	Route::resource('tasks', 'TasksController', ['except' => ['create']]);
-	Route::patch('tasks/complete/{tasks}', ['as' => 'tasks.complete', 'uses' => 'TasksController@complete']);
-    Route::post('tasks/delete_done', ['as' => 'tasks.destroyDone', 'uses' => 'TasksController@destroyDone']);
-
-	// Options routes
-	Route::get('options', ['as' => 'options.index', 'uses' => 'OptionsController@index']);
-	Route::get('options/email', ['as' => 'options.editEmail', 'uses' => 'OptionsController@editEmail']);
-	Route::post('options/email', ['as' => 'options.updateEmail', 'uses' => 'OptionsController@updateEmail']);
-	Route::post('options/notification', ['as' => 'options.toggleNotify', 'uses' => 'OptionsController@toggleNotify']);
-	Route::get('options/password', ['as' => 'options.editPassword', 'uses' => 'OptionsController@editPassword']);
-	Route::post('options/password', ['as' => 'options.updatePassword', 'uses' => 'OptionsController@updatePassword']);
-	Route::get('options/delete', ['as' => 'options.confirmDelete', 'uses' => 'OptionsController@confirmDelete']);
-	Route::post('options/delete', ['as' => 'options.delete', 'uses' => 'OptionsController@deleteAccount']);
+/* Tasks routes */
+Route::resource('tasks', 'TasksController', ['except' => ['create']]);
+Route::group(['prefix' => 'tasks', 'as' => 'tasks.'], function() {
+    Route::patch('complete/{tasks}',
+        ['as' => 'complete', 'uses' => 'TasksController@complete']);
+    Route::post('delete_done',
+        ['as' => 'destroyDone', 'uses' => 'TasksController@destroyDone']);
 });
 
-// Authentication routes
-Route::get('auth/login', ['as' => 'auth.showLogin', 'uses' => 'Auth\AuthController@getLogin']);
-Route::post('auth/login', ['as' => 'auth.login', 'uses' => 'Auth\AuthController@postLogin']);
-Route::get('auth/logout', ['as' => 'auth.logout', 'uses' => 'Auth\AuthController@getLogout']);
+/* Options routes */
+Route::group(['prefix' => 'options', 'as' => 'options.'], function() {
+	Route::get('/', ['as' => 'index', 'uses' => 'OptionsController@index']);
+    Route::get('email', 
+        ['as' => 'editEmail', 'uses' => 'OptionsController@editEmail']);
+    Route::post('email', 
+        ['as' => 'updateEmail', 'uses' => 'OptionsController@updateEmail']);
+    Route::post('notification', 
+        ['as' => 'toggleNotify', 'uses' => 'OptionsController@toggleNotify']);
+    Route::get('password', 
+        ['as' => 'editPassword', 'uses' => 'OptionsController@editPassword']);
+    Route::post('password', 
+        ['as' => 'updatePassword', 'uses' => 'OptionsController@updatePassword']);
+    Route::get('delete', 
+        ['as' => 'confirmDelete', 'uses' => 'OptionsController@confirmDelete']);
+    Route::post('delete', 
+        ['as' => 'delete', 'uses' => 'OptionsController@deleteAccount']);
+});
 
-// Registration routes
-Route::get('auth/register', ['as' => 'auth.showRegister', 'uses' => 'Auth\AuthController@getRegister']);
-Route::post('auth/register', ['as' => 'auth.register', 'uses' => 'Auth\AuthController@postRegister']);
+/* Authentication routes */
+Route::get('auth/login', 
+    ['as' => 'auth.showLogin', 'uses' => 'Auth\AuthController@getLogin']);
+Route::post('auth/login', 
+    ['as' => 'auth.login', 'uses' => 'Auth\AuthController@postLogin']);
+Route::get('auth/logout', 
+    ['as' => 'auth.logout', 'uses' => 'Auth\AuthController@getLogout']);
+Route::get('auth/register', 
+    ['as' => 'auth.showRegister', 'uses' => 'Auth\AuthController@getRegister']);
+Route::post('auth/register', 
+    ['as' => 'auth.register', 'uses' => 'Auth\AuthController@postRegister']);
