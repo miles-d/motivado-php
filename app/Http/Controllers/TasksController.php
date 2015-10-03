@@ -124,10 +124,18 @@ class TasksController extends Controller
             $this->validate($request, [
                 'due_date' => 'sometimes|date_format:Y-m-d',
             ]);
+
+            // if no date supplied, default to today
+            if (empty($request->due_date)) {
+                $today = \Carbon\Carbon::today();
+                $input['due_date'] = $today->toDateString();
+            } else {
+                $input['due_date'] = $request->due_date;
+            }
+
 			$input['_token'] = $request->_token;
 			$input['description'] = Crypt::encrypt($request->description);
 			$input['motivation'] = Crypt::encrypt($request->motivation);
-			$input['due_date'] = $request->due_date;
 		}
 			
 		$task->fill($input)->save();
