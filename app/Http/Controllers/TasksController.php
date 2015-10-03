@@ -23,8 +23,17 @@ class TasksController extends Controller
         // Date is needed in view to suggest due date
 		$today = new \DateTime;
 
-        // get user's tasks (does not include done tasks)
+        // get user's tasks (does not include completed tasks)
         $tasks = Task::getTasks(Auth::user()->id);
+
+        foreach($tasks as $task) {
+            $task['dateString'] = \Carbon\Carbon::createFromFormat('Y-m-d', $task->due_date)->diffForHumans(null, true);
+            if ($task->isPending()) {
+                $task['dateString'] .= ' ago';
+            } else {
+                $task['dateString'] = 'in ' . $task['dateString'];
+            }
+        }
 
         // get completed tasks
 		$doneTasks = Task::getDoneTasks(Auth::user()->id);
@@ -35,16 +44,6 @@ class TasksController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  CreateTaskRequest  $request
@@ -52,10 +51,22 @@ class TasksController extends Controller
      */
     public function store(CreateTaskRequest $request, Task $task)
     {
+        // validate date only if supplied ('sometimes')
+        $this->validate($request, [
+            'due_date' => 'sometimes|date_format:Y-m-d',
+        ]);
+
+        // if no date supplied, default to today
+        if (empty($request->due_date)) {
+            $today = \Carbon\Carbon::today();
+            $input['due_date'] = $today->toDateString();
+        } else {
+            $input['due_date'] = $request->due_date;
+        }
+
 		$input['_token'] = $request->_token;
 		$input['description'] = Crypt::encrypt($request->description);
 		$input['motivation'] = Crypt::encrypt($request->motivation);
-		$input['due_date'] = $request->due_date;
 		$input['user_id'] = Auth::user()->id;
 		$input['completed'] = 0;
 		
@@ -83,14 +94,15 @@ class TasksController extends Controller
      */
     public function edit(Task $task)
     {
-		if ($task->user_id == Auth::user()->id &&
-			$task->completed === '0') {
+		if ($task->user_id == Auth::user()->id && $task->completed === '0') {
 			$task['description'] = Crypt::decrypt($task['description']);
 			$task['motivation'] = Crypt::decrypt($task['motivation']);
 			$user = Auth::user();
 			return view('tasks.edit', compact('task', 'user'));
 		} else {
-			return redirect('/')->with('message', 'Oops, something went wrong!')->with('status', 'danger');
+            return redirect('/')
+                ->with('message', 'Oops, something went wrong!')
+                ->with('status', 'danger');
 		}
     }
 
@@ -106,6 +118,9 @@ class TasksController extends Controller
 		if (isset($request['completed'])) {
 			$input['completed'] = $request['completed'];
 		} else {
+            $this->validate($request, [
+                'due_date' => 'sometimes|date_format:Y-m-d',
+            ]);
 			$input['_token'] = $request->_token;
 			$input['description'] = Crypt::encrypt($request->description);
 			$input['motivation'] = Crypt::encrypt($request->motivation);

@@ -19,15 +19,12 @@
 @foreach ($tasks as $task)
   @if ($task->isPending() === true)
     <tr class="active text-info">
-      <td>{{ $task->description }}</td>
-      <td>{{ $task->motivation }}</td>
-      <td>{{ Carbon\Carbon::createFromFormat('Y-m-d', $task->due_date)->diffForHumans() }}</td>
   @else
     <tr>
+  @endif
       <td>{{ $task->description }}</td>
       <td>{{ $task->motivation }}</td>
-      <td>in {{ Carbon\Carbon::createFromFormat('Y-m-d', $task->due_date)->diffForHumans(null, true) }}</td>
-  @endif
+      <td>{{ $task['dateString'] }}</td>
       <td>
         @include('forms.done')
         <a class="btn btn-sm btn-primary" href="{{ route('tasks.edit', $task->id) }}">Edit...</a>
