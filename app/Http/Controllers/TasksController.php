@@ -28,7 +28,10 @@ class TasksController extends Controller
 
         foreach($tasks as $task) {
             $task['dateString'] = \Carbon\Carbon::createFromFormat('Y-m-d', $task->due_date)->diffForHumans(null, true);
-            if ($task->isPending()) {
+            // special case
+            if ($task['dateString'] === '1 second') {
+                $task['dateString'] = 'today';
+            } elseif ($task->isPending()) {
                 $task['dateString'] .= ' ago';
             } else {
                 $task['dateString'] = 'in ' . $task['dateString'];
