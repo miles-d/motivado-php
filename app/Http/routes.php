@@ -19,21 +19,17 @@ Route::get('/', function() {
 // Task resource
 // only available to authenticated users
 Route::group(['middleware' => 'auth'], function() {
-	Route::resource('tasks', 'TasksController');
+	Route::resource('tasks', 'TasksController', ['except' => ['create']]);
 	Route::patch('tasks/complete/{tasks}', ['as' => 'tasks.complete', 'uses' => 'TasksController@complete']);
     Route::post('tasks/delete_done', ['as' => 'tasks.destroyDone', 'uses' => 'TasksController@destroyDone']);
 
 	// Options routes
 	Route::get('options', ['as' => 'options.index', 'uses' => 'OptionsController@index']);
-
 	Route::get('options/email', ['as' => 'options.editEmail', 'uses' => 'OptionsController@editEmail']);
 	Route::post('options/email', ['as' => 'options.updateEmail', 'uses' => 'OptionsController@updateEmail']);
-
 	Route::post('options/notification', ['as' => 'options.toggleNotify', 'uses' => 'OptionsController@toggleNotify']);
-
 	Route::get('options/password', ['as' => 'options.editPassword', 'uses' => 'OptionsController@editPassword']);
 	Route::post('options/password', ['as' => 'options.updatePassword', 'uses' => 'OptionsController@updatePassword']);
-
 	Route::get('options/delete', ['as' => 'options.confirmDelete', 'uses' => 'OptionsController@confirmDelete']);
 	Route::post('options/delete', ['as' => 'options.delete', 'uses' => 'OptionsController@deleteAccount']);
 });
