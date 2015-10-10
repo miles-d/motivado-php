@@ -22,7 +22,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
  */
 $factory->define(App\Task::class, function (Faker\Generator $faker) {
     return [
-        'user_id' => mt_rand(1, 10),
+        'user_id' => mt_rand(1, 5),
         'description' => Crypt::encrypt($faker->sentence),
         'motivation' => Crypt::encrypt($faker->sentence),
         'due_date' => $faker->dateTimeBetween('-5 weeks', '5 weeks')->format('Y-m-d'),
