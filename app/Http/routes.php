@@ -17,13 +17,13 @@ Route::get('/', function() {
 });
 
 /* Tasks routes */
-Route::resource('tasks', 'TasksController', ['except' => ['create']]);
 Route::group(['prefix' => 'tasks', 'as' => 'tasks.'], function() {
     Route::patch('complete/{tasks}',
         ['as' => 'complete', 'uses' => 'TasksController@complete']);
     Route::post('delete_done',
         ['as' => 'destroyDone', 'uses' => 'TasksController@destroyDone']);
 });
+Route::resource('tasks', 'TasksController', ['except' => ['create']]);
 
 /* Options routes */
 Route::group(['prefix' => 'options', 'as' => 'options.'], function() {

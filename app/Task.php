@@ -8,7 +8,11 @@ use Crypt;
 class Task extends Model
 {
 	protected $fillable = [
-		'user_id', 'description', 'motivation', 'due_date', 'completed'
+        'user_id',
+        'description',
+        'motivation',
+        'due_date',
+        'completed',
 	];
 
     /**
